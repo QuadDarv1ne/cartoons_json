@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Библиотека мультфильмов{% endblock %}
+
+{% block content %}
+  <div class="row">
+    {% for cartoon in cartoons %}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="card">
+            <img src="{{ cartoon.image_url }}" class="card-img-top img-thumbnail" alt="{{ cartoon.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ cartoon.title }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ cartoon.author }}</h6>
+              <div class="card-text">{{ cartoon.description[:50] }}...</div>
+              <a href="{{ url_for('cartoon_detail', cartoon_id=cartoon.id) }}" class="btn btn-primary">Details</a>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+  </div>
+{% endblock %}

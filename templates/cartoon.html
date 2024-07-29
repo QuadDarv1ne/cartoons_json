@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ cartoon.title }}{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="row">
+      <!-- Изображение слева -->
+      <div class="col-md-6">
+        <img src="{{ cartoon.image_url }}" class="card-img-top smaller-image" alt="{{ cartoon.title }}">
+      </div>
+      <!-- Видео справа -->
+      <div class="col-md-6">
+        <div id="player"></div> <!-- Здесь будет создан проигрыватель YouTube -->
+      </div>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ cartoon.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ cartoon.author }}</h6>
+      <p class="card-text">{{ cartoon.description }}</p>
+      <a href="{{ url_for('index') }}" class="btn btn-secondary">&larr; Back</a>
+    </div>
+  </div>
+
+  <!-- Скрипт загрузки API YouTube Player -->
+  <script>
+    // Создаем функцию, которая будет вызвана после загрузки API YouTube Player
+    function onYouTubeIframeAPIReady() {
+      // Получаем идентификатор видео из представления
+      var videoId = "{{ video_id }}";
+
+      // Создаем новый проигрыватель YouTube
+      var player = new YT.Player('player', {
+        height: '360',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+          'autoplay': 0, // Воспроизведение видео после загрузки
+          'controls': 1, // Показывать элементы управления
+          'rel': 0, // Показывать рекомендации в конце видео
+          'showinfo': 0 // Показывать информацию о видео
+        },
+        events: {
+          'onReady': onPlayerReady,
+          // Можно добавить другие события, если нужно
+        }
+      });
+    }
+
+    // Функция, которая будет вызвана, когда проигрыватель будет готов
+    function onPlayerReady(event) {
+      // Можно добавить дополнительные действия после загрузки проигрывателя
+    }
+  </script>
+
+  <!-- Добавляем скрипт для асинхронной загрузки YouTube Iframe API -->
+  <script async defer src="https://www.youtube.com/iframe_api"></script>
+{% endblock %}
